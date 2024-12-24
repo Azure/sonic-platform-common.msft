@@ -477,6 +477,13 @@ CDB_LPL = "CdbLocalPayload"
 CDB_CMD = "CdbCommand"
 CDB_WRITE_MSG = "CdbWriteMessage"
 
+#CMISTargetFWUpgrade
+PAGE_SELECT_BYTE = "PageSelectByte"
+CMIS_TARGET_SERVER_INFO = "CmisTargetServerInfo"
+SERVER_FW_MAGIC_BYTE = "ServerFirmwareMagicByte"
+SERVER_FW_CHECKSUM = "ServerFirmwareChecksum"
+SERVER_FW_VERSION = "ServerFirmwareVersion"
+
 #VENDOR SPECIFIC
 VENDOR_CUSTOM = "VendorCustom"
 TARGET_MODE = "TargetMode"
