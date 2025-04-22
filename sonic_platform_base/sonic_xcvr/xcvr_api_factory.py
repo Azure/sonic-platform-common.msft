@@ -75,7 +75,7 @@ class XcvrApiFactory(object):
        vendor_pn = part_num.decode()
        return vendor_pn.strip()
 
- def _create_cmis_api(self):
+    def _create_cmis_api(self):
         api = None
         vendor_name = self._get_vendor_name()
         vendor_pn = self._get_vendor_part_num()
