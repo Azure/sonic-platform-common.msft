@@ -2578,6 +2578,8 @@ class CmisApi(XcvrApi):
                 logger.error('Failed to read APPLS_ADVT_FIELD_PAGE01: ' + str(e))
                 return ret
 
+        media_type = self.xcvr_eeprom.read(consts.MEDIA_TYPE_FIELD)
+        prefix = map.get(media_type)
         for app in range(1, 16):
             buf = {}
 
@@ -2587,7 +2589,6 @@ class CmisApi(XcvrApi):
                 continue
             buf['host_electrical_interface_id'] = val
 
-            prefix = map.get(self.xcvr_eeprom.read(consts.MEDIA_TYPE_FIELD))
             if prefix is None:
                 continue
             key = "{}_{}".format(prefix, app)
