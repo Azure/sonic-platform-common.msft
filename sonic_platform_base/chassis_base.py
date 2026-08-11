@@ -6,6 +6,13 @@
 """
 
 import sys
+try:
+    from sonic_py_common import device_info
+except ImportError:
+    # Unit-test packages may shadow sonic_py_common with a partial mock that
+    # does not provide device_info. This should not occur outside of test
+    # environments.
+    device_info = None
 from . import device_base
 from . import sfp_base
 

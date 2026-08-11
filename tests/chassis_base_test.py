@@ -1,3 +1,10 @@
+import builtins
+import importlib
+
+import pytest
+from unittest import mock
+
+from sonic_platform_base import chassis_base
 from sonic_platform_base.chassis_base import ChassisBase
 
 class TestChassisBase:
@@ -216,3 +223,27 @@ class TestChassisBase:
         assert chassis.get_pdb(-4) is None
         err_neg = capsys.readouterr().err
         assert "PDB index -4 out of range (0-2)" in err_neg
+
+    def test_device_info_import_failure(self):
+        # Some unit-test packages shadow sonic_py_common with a partial mock
+        # that does not provide device_info. chassis_base must still import
+        # successfully so these tests do not fail, since device_info is only
+        # required by some platform features.
+        real_import = builtins.__import__
+
+        def failing_import(name, *args, **kwargs):
+            if name == "sonic_py_common":
+                raise ImportError("no module named sonic_py_common.device_info")
+            return real_import(name, *args, **kwargs)
+
+        try:
+            with mock.patch.object(builtins, "__import__", failing_import):
+                importlib.reload(chassis_base)
+
+            assert chassis_base.device_info is None
+            chassis_base.ChassisBase()
+        finally:
+            # Restore the module for the remaining tests
+            importlib.reload(chassis_base)
+
+        assert chassis_base.device_info is not None
